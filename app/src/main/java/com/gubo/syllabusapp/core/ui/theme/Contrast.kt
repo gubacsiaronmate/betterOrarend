@@ -1,4 +1,4 @@
-package com.gubo.syllabusapp.ui.theme
+package com.gubo.syllabusapp.core.ui.theme
 
 enum class Contrast {
     Standard,
