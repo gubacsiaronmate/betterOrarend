@@ -247,6 +247,7 @@ data class ColorFamily(
     val onColorContainer: Color
 )
 
+@Suppress("unused")
 val unspecified_scheme = ColorFamily(
     Color.Unspecified, Color.Unspecified, Color.Unspecified, Color.Unspecified
 )
