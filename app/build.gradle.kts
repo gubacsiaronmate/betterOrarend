@@ -40,6 +40,9 @@ android {
 }
 
 dependencies {
+    // my imports
+    implementation(libs.compose.google.fonts)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
