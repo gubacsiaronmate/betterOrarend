@@ -1,7 +1,10 @@
 package com.gubo.syllabusapp.feature.schedule.data
 
 import com.gubo.syllabusapp.feature.schedule.domain.model.ClassSession
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 
 class IcsParser {
     fun parse(content: String): List<ClassSession> {
@@ -47,13 +50,22 @@ class IcsParser {
         val location = this["LOCATION"]
             ?.substringBefore("(")
             ?.trim() ?: ""
-        
+
+        val startTime = this["DTSTART"]?.parseIcsDateTime() ?: placeholder
+        val endTime = this["DTEND"]?.parseIcsDateTime() ?: placeholder
+
         return ClassSession(
             subject = subject,
             instructor = instructor,
             location = location,
-            startTime = placeholder,
-            endTime = placeholder
+            startTime = startTime,
+            endTime = endTime
         )
+    }
+
+    private fun String.parseIcsDateTime(): ZonedDateTime {
+        val formatter = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'")
+        val localDateTime = LocalDateTime.parse(this, formatter)
+        return localDateTime.atZone(ZoneOffset.UTC)
     }
 }
