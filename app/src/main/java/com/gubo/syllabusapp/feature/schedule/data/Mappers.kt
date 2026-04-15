@@ -37,6 +37,13 @@ fun SemesterEntity.toDomain(): Semester = Semester(
     isActive = isActive
 )
 
+fun Semester.toEntity(): SemesterEntity = SemesterEntity(
+    id = id,
+    name = name,
+    importedAt = importedAt,
+    isActive = isActive
+)
+
 fun UserEventEntity.toDomain(): UserEvent = UserEvent(
     id = id,
     title = title,
