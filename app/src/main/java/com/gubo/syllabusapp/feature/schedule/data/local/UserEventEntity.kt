@@ -6,7 +6,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "class_sessions",
+    tableName = "user_events",
     foreignKeys = [ForeignKey(
         entity = SemesterEntity::class,
         parentColumns = ["id"],
