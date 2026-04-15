@@ -53,5 +53,5 @@ fun UserEvent.toEntity(semesterId: Long): UserEventEntity = UserEventEntity(
     description = description,
     location = location,
     startTimeUtc = startTime.toEpochMilli(),
-    endTimeUtc = startTime.toEpochMilli()
+    endTimeUtc = endTime.toEpochMilli()
 )
