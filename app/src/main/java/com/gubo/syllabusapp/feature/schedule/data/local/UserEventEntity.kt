@@ -19,8 +19,8 @@ data class UserEventEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val semesterId: Long,
     val title: String,
-    val description: String,
-    val location: String,
+    val description: String?,
+    val location: String?,
     val startTimeUtc: Long,
     val endTimeUtc: Long
 )
