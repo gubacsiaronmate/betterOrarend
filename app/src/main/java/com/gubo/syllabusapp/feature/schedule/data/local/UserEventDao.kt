@@ -12,8 +12,8 @@ interface UserEventDao {
     @Query("""
         SELECT * FROM user_events
         WHERE semesterId = :semesterId
-        AND startTimeUtc <= :weekStartMillis
-        AND endTimeUtc > :weekEndMillis
+        AND startTimeUtc >= :weekStartMillis
+        AND endTimeUtc < :weekEndMillis
         ORDER BY startTimeUtc ASC
     """)
     fun getUserEventsForWeek(
