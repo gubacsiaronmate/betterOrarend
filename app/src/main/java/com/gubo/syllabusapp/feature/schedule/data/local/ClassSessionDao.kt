@@ -12,7 +12,7 @@ interface ClassSessionDao {
         SELECT * FROM class_sessions
         WHERE semesterId = :semesterId
         AND startTimeUtc >= :weekStartMillis
-        AND endTimeUtc < :weekEndMillis
+        AND startTimeUtc < :weekEndMillis
         ORDER BY startTimeUtc ASC
     """)
     fun getSessionForWeek(
