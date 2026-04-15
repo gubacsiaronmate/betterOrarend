@@ -61,7 +61,7 @@ class ScheduleRepositoryTest {
             BEGIN:VEVENT
             UID:abc001
             DTSTART:20260224T080000Z
-            DTEND:20260223T094000Z
+            DTEND:20260224T094000Z
             SUMMARY:Gyógypedagógiai szociológia ( - EC-I-2-1 csoport) - Dr. Czövek Andrea - Tanóra
             LOCATION:ÉK.Als.3 (E.ÉK.Als.3)
             END:VEVENT
