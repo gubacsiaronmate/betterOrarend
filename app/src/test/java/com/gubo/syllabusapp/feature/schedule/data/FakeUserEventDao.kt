@@ -20,7 +20,7 @@ class FakeUserEventDao : UserEventDao {
             list.filter {
                 it.semesterId == semesterId &&
                 it.startTimeUtc >= weekStartMillis &&
-                it.endTimeUtc < weekEndMillis
+                it.startTimeUtc < weekEndMillis
             }
         }
 

@@ -4,6 +4,7 @@ import com.gubo.syllabusapp.core.util.toEpochMilli
 import com.gubo.syllabusapp.feature.schedule.data.local.ClassSessionDao
 import com.gubo.syllabusapp.feature.schedule.data.local.SemesterDao
 import com.gubo.syllabusapp.feature.schedule.data.local.SemesterEntity
+import com.gubo.syllabusapp.feature.schedule.data.local.UserEventDao
 import com.gubo.syllabusapp.feature.schedule.domain.model.ClassSession
 import com.gubo.syllabusapp.feature.schedule.domain.model.Semester
 import com.gubo.syllabusapp.feature.schedule.domain.model.UserEvent
@@ -20,6 +21,7 @@ import javax.inject.Inject
 class ScheduleRepositoryImpl @Inject constructor(
     private val semesterDao: SemesterDao,
     private val classSessionDao: ClassSessionDao,
+    private val userEventDao: UserEventDao,
     private val icsParser: IcsParser
 ) : ScheduleRepository {
     @OptIn(ExperimentalCoroutinesApi::class)
