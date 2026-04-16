@@ -43,8 +43,23 @@ class ScheduleRepositoryImpl @Inject constructor(
         }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override fun getUserEventsForWeek(weekStart: LocalDate): Flow<List<UserEvent>> {
-        TODO()
+        val weekStartMillis = weekStart
+            .atStartOfDay(ZoneId.of("Europe/Budapest"))
+            .toEpochMilli()
+        val weekEndMillis = weekStart
+            .plusDays(7)
+            .atStartOfDay(ZoneId.of("Europe/Budapest"))
+            .toEpochMilli()
+
+        return semesterDao.getActiveSemester().flatMapLatest { semester ->
+            if (semester == null) return@flatMapLatest flowOf(emptyList())
+
+            userEventDao
+                .getUserEventsForWeek(semester.id, weekStartMillis, weekEndMillis)
+                .map { list -> list.map { it.toDomain() } }
+        }
     }
 
     override fun getAllSemesters(): Flow<List<Semester>> =
