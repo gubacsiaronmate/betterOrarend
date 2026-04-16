@@ -15,3 +15,5 @@ fun Long.toZonedDateTime(zoneId: ZoneId): ZonedDateTime =
 
 fun ZonedDateTime.toEpochMilli(): Long =
     this.toInstant().toEpochMilli()
+
+val ZONE: ZoneId = ZoneId.of("Europe/Budapest")

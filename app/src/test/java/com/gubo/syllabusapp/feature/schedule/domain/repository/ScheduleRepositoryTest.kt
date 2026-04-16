@@ -1,7 +1,7 @@
 package com.gubo.syllabusapp.feature.schedule.domain.repository
 
 import app.cash.turbine.test
-import com.gubo.syllabusapp.core.util.toEpochMilli
+import com.gubo.syllabusapp.core.util.ZONE
 import com.gubo.syllabusapp.feature.schedule.data.FakeClassSessionDao
 import com.gubo.syllabusapp.feature.schedule.data.FakeSemesterDao
 import com.gubo.syllabusapp.feature.schedule.data.FakeUserEventDao
@@ -10,13 +10,12 @@ import com.gubo.syllabusapp.feature.schedule.data.ScheduleRepositoryImpl
 import com.gubo.syllabusapp.feature.schedule.data.local.ClassSessionDao
 import com.gubo.syllabusapp.feature.schedule.data.local.SemesterDao
 import com.gubo.syllabusapp.feature.schedule.data.local.UserEventDao
-import com.gubo.syllabusapp.feature.schedule.data.local.UserEventEntity
+import com.gubo.syllabusapp.feature.schedule.domain.model.UserEvent
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import java.time.LocalDate
-import java.time.ZoneId
 import java.time.ZonedDateTime
 
 class ScheduleRepositoryTest {
@@ -92,18 +91,29 @@ class ScheduleRepositoryTest {
 
     @Test
     fun `getUserEventsForWeek returns correct data for given input`() = runTest {
-        val zone = ZoneId.of("Europe/Budapest")
+        val icsContent = """
+            BEGIN:VCALENDAR
+            BEGIN:VEVENT
+            UID:abc001
+            DTSTART:20260224T080000Z
+            DTEND:20260224T094000Z
+            SUMMARY:Gyógypedagógiai szociológia ( - EC-I-2-1 csoport) - Dr. Czövek Andrea - Tanóra
+            LOCATION:ÉK.Als.3 (E.ÉK.Als.3)
+            END:VEVENT
+            END:VCALENDAR
+        """.trimIndent()
 
-        val event = UserEventEntity(
-            semesterId = 1,
+        repository.importFromIcs(icsContent, "2025/26 tavasz")
+
+        val event = UserEvent(
             title = "Pszicho zh",
             description = null,
             location = "ersekkert",
-            startTimeUtc = ZonedDateTime.of(2026, 4, 1, 12, 0, 0, 0, zone).toEpochMilli(),
-            endTimeUtc = ZonedDateTime.of(2026, 4, 1, 14, 30, 0, 0, zone).toEpochMilli()
+            startTime = ZonedDateTime.of(2026, 4, 1, 12, 0, 0, 0, ZONE),
+            endTime = ZonedDateTime.of(2026, 4, 1, 14, 30, 0, 0, ZONE)
         )
 
-        userEventDao.insert(event)
+        repository.addUserEvent(event)
 
         repository.getUserEventsForWeek(LocalDate.of(2026, 3, 30)).test {
             val events = awaitItem()

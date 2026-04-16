@@ -11,6 +11,7 @@ interface ScheduleRepository {
     fun getUserEventsForWeek(weekStart: LocalDate): Flow<List<UserEvent>>
     fun getAllSemesters(): Flow<List<Semester>>
     suspend fun importFromIcs(content: String, semesterName: String)
+    suspend fun addUserEvent(event: UserEvent)
     suspend fun switchActiveSemester(id: Long)
     suspend fun deleteSemester(semester: Semester)
 }

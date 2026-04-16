@@ -1,5 +1,6 @@
 package com.gubo.syllabusapp.feature.schedule.data
 
+import com.gubo.syllabusapp.core.util.ZONE
 import com.gubo.syllabusapp.core.util.toEpochMilli
 import com.gubo.syllabusapp.core.util.toZonedDateTime
 import com.gubo.syllabusapp.feature.schedule.data.local.ClassSessionEntity
@@ -8,16 +9,13 @@ import com.gubo.syllabusapp.feature.schedule.data.local.UserEventEntity
 import com.gubo.syllabusapp.feature.schedule.domain.model.ClassSession
 import com.gubo.syllabusapp.feature.schedule.domain.model.Semester
 import com.gubo.syllabusapp.feature.schedule.domain.model.UserEvent
-import java.time.ZoneId
-
-private val zone = ZoneId.of("Europe/Budapest")
 
 fun ClassSessionEntity.toDomain(): ClassSession = ClassSession(
     subject = subject,
     instructor = instructor,
     location = location,
-    startTime = startTimeUtc.toZonedDateTime(zone),
-    endTime = endTimeUtc.toZonedDateTime(zone)
+    startTime = startTimeUtc.toZonedDateTime(ZONE),
+    endTime = endTimeUtc.toZonedDateTime(ZONE)
 )
 
 fun ClassSession.toEntity(semesterId: Long, uid: String): ClassSessionEntity = ClassSessionEntity(
@@ -49,8 +47,8 @@ fun UserEventEntity.toDomain(): UserEvent = UserEvent(
     title = title,
     description = description,
     location = location,
-    startTime = startTimeUtc.toZonedDateTime(zone),
-    endTime = endTimeUtc.toZonedDateTime(zone)
+    startTime = startTimeUtc.toZonedDateTime(ZONE),
+    endTime = endTimeUtc.toZonedDateTime(ZONE)
 )
 
 fun UserEvent.toEntity(semesterId: Long): UserEventEntity = UserEventEntity(

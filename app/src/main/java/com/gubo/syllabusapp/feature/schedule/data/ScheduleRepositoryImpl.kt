@@ -1,5 +1,6 @@
 package com.gubo.syllabusapp.feature.schedule.data
 
+import com.gubo.syllabusapp.core.util.ZONE
 import com.gubo.syllabusapp.core.util.toEpochMilli
 import com.gubo.syllabusapp.feature.schedule.data.local.ClassSessionDao
 import com.gubo.syllabusapp.feature.schedule.data.local.SemesterDao
@@ -11,11 +12,11 @@ import com.gubo.syllabusapp.feature.schedule.domain.model.UserEvent
 import com.gubo.syllabusapp.feature.schedule.domain.repository.ScheduleRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
-import java.time.ZoneId
 import javax.inject.Inject
 
 class ScheduleRepositoryImpl @Inject constructor(
@@ -27,11 +28,11 @@ class ScheduleRepositoryImpl @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     override fun getSessionsForWeek(weekStart: LocalDate): Flow<List<ClassSession>> {
         val weekStartMillis = weekStart
-            .atStartOfDay(ZoneId.of("Europe/Budapest"))
+            .atStartOfDay(ZONE)
             .toEpochMilli()
         val weekEndMillis = weekStart
             .plusDays(7)
-            .atStartOfDay(ZoneId.of("Europe/Budapest"))
+            .atStartOfDay(ZONE)
             .toEpochMilli()
 
         return semesterDao.getActiveSemester().flatMapLatest { semester ->
@@ -46,11 +47,11 @@ class ScheduleRepositoryImpl @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     override fun getUserEventsForWeek(weekStart: LocalDate): Flow<List<UserEvent>> {
         val weekStartMillis = weekStart
-            .atStartOfDay(ZoneId.of("Europe/Budapest"))
+            .atStartOfDay(ZONE)
             .toEpochMilli()
         val weekEndMillis = weekStart
             .plusDays(7)
-            .atStartOfDay(ZoneId.of("Europe/Budapest"))
+            .atStartOfDay(ZONE)
             .toEpochMilli()
 
         return semesterDao.getActiveSemester().flatMapLatest { semester ->
@@ -80,6 +81,14 @@ class ScheduleRepositoryImpl @Inject constructor(
 
         classSessionDao.insertAll(sessions)
         semesterDao.switchActiveSemester(semesterId)
+    }
+
+    override suspend fun addUserEvent(event: UserEvent) {
+        val semesterId = semesterDao
+            .getActiveSemester()
+            .first()?.id ?: return
+
+        userEventDao.insert(event.toEntity(semesterId))
     }
 
     override suspend fun switchActiveSemester(id: Long) {
