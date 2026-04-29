@@ -5,8 +5,9 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
+import javax.inject.Inject
 
-class IcsParser {
+class IcsParser @Inject constructor() {
     fun parse(content: String): List<ClassSession> {
         if (content.isBlank()) return emptyList()
 

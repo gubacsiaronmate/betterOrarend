@@ -1,6 +1,7 @@
 package com.gubo.syllabusapp.feature.schedule.domain.repository
 
 import app.cash.turbine.test
+import com.gubo.syllabusapp.core.util.MainDispatcherRule
 import com.gubo.syllabusapp.core.util.ZONE
 import com.gubo.syllabusapp.feature.schedule.data.FakeClassSessionDao
 import com.gubo.syllabusapp.feature.schedule.data.FakeSemesterDao
@@ -14,6 +15,7 @@ import com.gubo.syllabusapp.feature.schedule.domain.model.UserEvent
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import java.time.LocalDate
 import java.time.ZonedDateTime
@@ -23,6 +25,9 @@ class ScheduleRepositoryTest {
     private lateinit var classSessionDao: ClassSessionDao
     private lateinit var repository: ScheduleRepositoryImpl
     private lateinit var userEventDao: UserEventDao
+
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
 
     @Before
     fun setup() {

@@ -1,6 +1,7 @@
 package com.gubo.syllabusapp.feature.schedule.ui
 
 import app.cash.turbine.test
+import com.gubo.syllabusapp.core.util.MainDispatcherRule
 import com.gubo.syllabusapp.feature.schedule.domain.model.ClassSession
 import com.gubo.syllabusapp.feature.schedule.domain.model.UserEvent
 import com.gubo.syllabusapp.feature.schedule.domain.repository.FakeScheduleRepository
@@ -9,6 +10,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -16,6 +18,9 @@ import java.time.LocalDate
 class ScheduleViewModelTest {
     private lateinit var repository: ScheduleRepository
     private lateinit var viewModel: ScheduleViewModel
+
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
 
     @Before
     fun setup() {
@@ -28,9 +33,10 @@ class ScheduleViewModelTest {
         viewModel.uiState.test {
             val uiState = awaitItem()
             assertNotEquals(uiState, null)
-            assertEquals(uiState.isLoading, false)
-            assertEquals(uiState.userEvents, emptyMap<DayOfWeek, UserEvent>())
-            assertEquals(uiState.sessions, emptyMap<DayOfWeek, ClassSession>())
+            @Suppress("UNNECESSARY_NOT_NULL_ASSERTION")
+            assertEquals(uiState!!.isLoading, false)
+            assertEquals(uiState.sessions, emptyMap<DayOfWeek, List<ClassSession>>())
+            assertEquals(uiState.userEvents, emptyMap<DayOfWeek, List<UserEvent>>())
             assertEquals(uiState.currentWeekStart, LocalDate.now().with(DayOfWeek.MONDAY))
             assertEquals(uiState.activeSemester, null)
             cancelAndIgnoreRemainingEvents()

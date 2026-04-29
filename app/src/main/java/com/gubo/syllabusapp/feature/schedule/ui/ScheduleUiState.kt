@@ -7,8 +7,8 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 
 data class ScheduleUiState(
-    val sessions: Map<DayOfWeek, ClassSession> = emptyMap(),
-    val userEvents: Map<DayOfWeek, UserEvent> = emptyMap(),
+    val sessions: Map<DayOfWeek, List<ClassSession>> = emptyMap(),
+    val userEvents: Map<DayOfWeek, List<UserEvent>> = emptyMap(),
     val currentWeekStart: LocalDate = LocalDate.now().with(DayOfWeek.MONDAY),
     val activeSemester: Semester? = null,
     val isLoading: Boolean = false
