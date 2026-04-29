@@ -12,8 +12,8 @@ import javax.inject.Inject
 class ScheduleViewModel @Inject constructor(
     private val repository: ScheduleRepository
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow<ScheduleUiState?>(null)
-    val uiState: StateFlow<ScheduleUiState?> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(ScheduleUiState())
+    val uiState: StateFlow<ScheduleUiState> = _uiState.asStateFlow()
 
     fun onAction(action: ScheduleAction) {
         /*when (action) {
