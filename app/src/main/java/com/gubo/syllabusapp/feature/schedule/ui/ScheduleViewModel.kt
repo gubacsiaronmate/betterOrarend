@@ -47,9 +47,13 @@ class ScheduleViewModel @Inject constructor(
 
     fun onAction(action: ScheduleAction) {
         when (action) {
-            is ScheduleAction.PreviousWeek -> _weekStart.value.minusWeeks(1)
+            is ScheduleAction.PreviousWeek -> {
+                _weekStart.value = _weekStart.value.minusWeeks(1)
+            }
 
-            is ScheduleAction.NextWeek -> _weekStart.value.plusWeeks(1)
+            is ScheduleAction.NextWeek -> {
+                _weekStart.value = _weekStart.value.plusWeeks(1)
+            }
 
             is ScheduleAction.AddUserEvent -> viewModelScope.launch {
                 repository.addUserEvent(action.event)
