@@ -8,9 +8,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import java.time.LocalDate
 
 class FakeScheduleRepository : ScheduleRepository {
-    private val semesters = MutableStateFlow<List<Semester>>(emptyList())
-    private val sessions = MutableStateFlow<List<ClassSession>>(emptyList())
-    private val userEvents = MutableStateFlow<List<UserEvent>>(emptyList())
+    private val semesters = MutableStateFlow<MutableList<Semester>>(mutableListOf())
+    private val sessions = MutableStateFlow<MutableList<ClassSession>>(mutableListOf())
+    private val userEvents = MutableStateFlow<MutableList<UserEvent>>(mutableListOf())
 
     override fun getSessionsForWeek(weekStart: LocalDate): Flow<List<ClassSession>> = sessions
 
@@ -23,9 +23,13 @@ class FakeScheduleRepository : ScheduleRepository {
         semesters.value += semester
     }
 
-    override suspend fun addUserEvent(event: UserEvent) {}
+    override suspend fun addUserEvent(event: UserEvent) {
+        userEvents.value.add(event)
+    }
 
     override suspend fun switchActiveSemester(id: Long) {}
 
-    override suspend fun deleteSemester(semester: Semester) {}
+    override suspend fun deleteSemester(semester: Semester) {
+        semesters.value.remove(semester)
+    }
 }

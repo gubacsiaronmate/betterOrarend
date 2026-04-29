@@ -26,6 +26,7 @@ class ScheduleViewModelTest {
     @Before
     fun setup() {
         repository = FakeScheduleRepository()
+
         viewModel = ScheduleViewModel(repository)
     }
 
