@@ -1,8 +1,8 @@
 package com.gubo.syllabusapp.feature.schedule.ui
 
-import app.cash.turbine.test
 import com.gubo.syllabusapp.core.util.MainDispatcherRule
 import com.gubo.syllabusapp.core.util.instantiate
+import com.gubo.syllabusapp.core.util.testItems
 import com.gubo.syllabusapp.feature.schedule.domain.model.ClassSession
 import com.gubo.syllabusapp.feature.schedule.domain.model.UserEvent
 import com.gubo.syllabusapp.feature.schedule.domain.repository.FakeScheduleRepository
@@ -15,6 +15,7 @@ import org.junit.Rule
 import org.junit.Test
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.ZonedDateTime
 
 class ScheduleViewModelTest {
     private lateinit var repository: ScheduleRepository
@@ -26,13 +27,12 @@ class ScheduleViewModelTest {
     @Before
     fun setup() {
         repository = FakeScheduleRepository()
-
         viewModel = ScheduleViewModel(repository)
     }
 
     @Test
     fun `viewmodel inital state`() = runTest {
-        viewModel.uiState.test {
+        viewModel.uiState.testItems {
             val uiState = awaitItem()
             assertNotEquals(uiState, null)
             @Suppress("UNNECESSARY_NOT_NULL_ASSERTION")
@@ -41,14 +41,13 @@ class ScheduleViewModelTest {
             assertEquals(uiState.userEvents, emptyMap<DayOfWeek, List<UserEvent>>())
             assertEquals(uiState.currentWeekStart, LocalDate.now().with(DayOfWeek.MONDAY))
             assertEquals(uiState.activeSemester, null)
-            cancelAndIgnoreRemainingEvents()
         }
     }
 
     @Test
     fun `viewmodel actions work correctly`() = runTest {
         val actions = ScheduleAction::class.sealedSubclasses.mapNotNull { it.instantiate() }
-        viewModel.uiState.test {
+        viewModel.uiState.testItems {
             var uiState = awaitItem()
             var weekStart = uiState.currentWeekStart
             actions.forEach { action ->
@@ -73,7 +72,25 @@ class ScheduleViewModelTest {
                     }
                 }
             }
-            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `does the viewmodel observe the repository`() = runTest {
+        val session = ClassSession(
+            subject = "",
+            instructor = "",
+            location = "",
+            startTime = ZonedDateTime.now(),
+            endTime = ZonedDateTime.now()
+        )
+
+        viewModel.uiState.testItems {
+            var uiState = awaitItem()
+            val sessionsSizeBefore = uiState.sessions.size
+            (repository as FakeScheduleRepository).addSession(session)
+            uiState = awaitItem()
+            assertEquals(sessionsSizeBefore + 1, uiState.sessions.size)
         }
     }
 }

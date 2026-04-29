@@ -32,4 +32,8 @@ class FakeScheduleRepository : ScheduleRepository {
     override suspend fun deleteSemester(semester: Semester) {
         semesters.value = semesters.value.filter { it != semester }
     }
+
+    fun addSession(session: ClassSession) {
+        sessions.value += session
+    }
 }

@@ -1,8 +1,8 @@
 package com.gubo.syllabusapp.feature.schedule.domain.repository
 
-import app.cash.turbine.test
 import com.gubo.syllabusapp.core.util.MainDispatcherRule
 import com.gubo.syllabusapp.core.util.ZONE
+import com.gubo.syllabusapp.core.util.testItems
 import com.gubo.syllabusapp.feature.schedule.data.FakeClassSessionDao
 import com.gubo.syllabusapp.feature.schedule.data.FakeSemesterDao
 import com.gubo.syllabusapp.feature.schedule.data.FakeUserEventDao
@@ -58,12 +58,11 @@ class ScheduleRepositoryTest {
 
         repository.importFromIcs(icsContent, "2025/26 tavasz")
 
-        repository.getAllSemesters().test {
+        repository.getAllSemesters().testItems {
             val semester = awaitItem()
             assertEquals(1, semester.size)
             assertEquals("2025/26 tavasz", semester.first().name)
             assertEquals(true, semester.first().isActive)
-            cancelAndIgnoreRemainingEvents()
         }
     }
 
@@ -83,14 +82,13 @@ class ScheduleRepositoryTest {
 
         repository.importFromIcs(icsContent, "2025/26 tavasz")
 
-        repository.getSessionsForWeek(LocalDate.of(2026, 2, 23)).test {
+        repository.getSessionsForWeek(LocalDate.of(2026, 2, 23)).testItems {
             val sessions = awaitItem()
             assertEquals(1, sessions.size)
             assertEquals("Gyógypedagógiai szociológia", sessions.first().subject)
             assertEquals("ÉK.Als.3", sessions.first().location)
             assert(LocalDate.of(2026, 2, 23) < sessions.first().startTime.toLocalDate())
             assert(LocalDate.of(2026, 3, 1) > sessions.first().startTime.toLocalDate())
-            cancelAndIgnoreRemainingEvents()
         }
     }
 
@@ -120,7 +118,7 @@ class ScheduleRepositoryTest {
 
         repository.addUserEvent(event)
 
-        repository.getUserEventsForWeek(LocalDate.of(2026, 3, 30)).test {
+        repository.getUserEventsForWeek(LocalDate.of(2026, 3, 30)).testItems {
             val events = awaitItem()
             assertEquals(1, events.size)
             assertEquals(event.title, events.first().title)
@@ -128,7 +126,6 @@ class ScheduleRepositoryTest {
             assertEquals(event.location, events.first().location)
             assert(LocalDate.of(2026, 3, 30) < events.first().startTime.toLocalDate())
             assert(LocalDate.of(2026, 4, 5) > events.first().startTime.toLocalDate())
-            cancelAndIgnoreRemainingEvents()
         }
     }
 }
