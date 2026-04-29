@@ -1,7 +1,7 @@
 [versions]
 agp = "9.1.1"
-kotlin = "2.3.20"
-composeBom = "2026.03.01"
+kotlin = "2.3.21"
+composeBom = "2026.04.01"
 
 coreKtx = "1.18.0"
 lifecycleRuntimeKtx = "2.10.0"
@@ -10,7 +10,7 @@ activityCompose = "1.13.0"
 room = "2.8.4"
 hilt = "2.59.2"
 hiltNavigationCompose = "1.3.0"
-navigation = "2.9.7"
+navigation = "2.9.8"
 ksp = "2.3.6"
 
 coroutines = "1.10.2"
@@ -62,6 +62,9 @@ kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-cor
 
 # Serialization
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerialization" }
+
+# Reflection
+kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
 
 # Testing
 junit = { group = "junit", name = "junit", version.ref = "junit" }

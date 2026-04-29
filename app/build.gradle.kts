@@ -17,6 +17,7 @@ android {
     defaultConfig {
         applicationId = "com.gubo.syllabusapp"
         minSdk = 36
+        //noinspection OldTargetApi
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -84,6 +85,9 @@ dependencies {
 
     // Serialization
     implementation(libs.kotlinx.serialization.json)
+
+    // Reflection
+    implementation(libs.kotlin.reflect)
 
     // Testing
     testImplementation(libs.junit)
