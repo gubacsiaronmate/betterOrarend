@@ -47,34 +47,45 @@ class ScheduleViewModelTest {
     @Test
     fun `viewmodel actions work correctly`() = runTest {
         val actions = ScheduleAction::class.sealedSubclasses.mapNotNull { it.instantiate() }
+
         viewModel.uiState.testItems {
             var uiState = awaitItem()
             var weekStart = uiState.currentWeekStart
+
             actions.forEach { action ->
                 when (action) {
                     ScheduleAction.NextWeek -> {
                         viewModel.onAction(action)
+
                         uiState = awaitItem()
+
                         assertEquals(weekStart.plusWeeks(1), uiState.currentWeekStart)
+
                         weekStart = uiState.currentWeekStart
                     }
                     ScheduleAction.PreviousWeek -> {
                         viewModel.onAction(action)
+
                         uiState = awaitItem()
+
                         assertEquals(weekStart.minusWeeks(1), uiState.currentWeekStart)
+
                         weekStart = uiState.currentWeekStart
                     }
                     is ScheduleAction.AddUserEvent -> {
                         val eventListSizeBefore = uiState
                             .userEvents
-                            .map { it.value.size }
-                            .sum()
+                            .values
+                            .sumOf { it.size }
+
                         viewModel.onAction(action)
+
                         uiState = awaitItem()
                         val eventListSizeAfter = uiState
                             .userEvents
-                            .map { it.value.size }
-                            .sum()
+                            .values
+                            .sumOf { it.size }
+
                         assertEquals(eventListSizeBefore + 1, eventListSizeAfter)
                     }
                 }
@@ -96,14 +107,17 @@ class ScheduleViewModelTest {
             var uiState = awaitItem()
             val sessionsSizeBefore = uiState
                 .sessions
-                .map { it.value.size }
-                .sum()
+                .values
+                .sumOf { it.size }
+
             (repository as FakeScheduleRepository).addSession(session)
+
             uiState = awaitItem()
             val sessionsSizeAfter = uiState
                 .sessions
-                .map { it.value.size }
-                .sum()
+                .values
+                .sumOf { it.size }
+
             assertEquals(sessionsSizeBefore + 1, sessionsSizeAfter)
         }
     }
