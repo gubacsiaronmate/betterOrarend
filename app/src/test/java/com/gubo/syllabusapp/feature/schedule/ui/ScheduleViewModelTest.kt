@@ -65,10 +65,17 @@ class ScheduleViewModelTest {
                         weekStart = uiState.currentWeekStart
                     }
                     is ScheduleAction.AddUserEvent -> {
-                        val eventListSizeBefore = uiState.userEvents.size
+                        val eventListSizeBefore = uiState
+                            .userEvents
+                            .map { it.value.size }
+                            .sum()
                         viewModel.onAction(action)
                         uiState = awaitItem()
-                        assertEquals(eventListSizeBefore + 1, uiState.userEvents.size)
+                        val eventListSizeAfter = uiState
+                            .userEvents
+                            .map { it.value.size }
+                            .sum()
+                        assertEquals(eventListSizeBefore + 1, eventListSizeAfter)
                     }
                 }
             }
@@ -87,10 +94,17 @@ class ScheduleViewModelTest {
 
         viewModel.uiState.testItems {
             var uiState = awaitItem()
-            val sessionsSizeBefore = uiState.sessions.size
+            val sessionsSizeBefore = uiState
+                .sessions
+                .map { it.value.size }
+                .sum()
             (repository as FakeScheduleRepository).addSession(session)
             uiState = awaitItem()
-            assertEquals(sessionsSizeBefore + 1, uiState.sessions.size)
+            val sessionsSizeAfter = uiState
+                .sessions
+                .map { it.value.size }
+                .sum()
+            assertEquals(sessionsSizeBefore + 1, sessionsSizeAfter)
         }
     }
 }
