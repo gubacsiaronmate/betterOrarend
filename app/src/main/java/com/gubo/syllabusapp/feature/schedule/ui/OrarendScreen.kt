@@ -19,6 +19,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -50,10 +51,10 @@ fun OrarendScreen(
     )
 
     Box(Modifier.fillMaxSize()) {
-        Column(Modifier.fillMaxSize()) {
+        Box(Modifier.fillMaxSize()) {
             HorizontalPager(
                 state = pagerState,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.fillMaxSize()
             ) { page ->
                 DayPage(
                     sessions = uiState.sessions[DayOfWeek.of(page + 1)] ?: emptyList()
@@ -61,21 +62,18 @@ fun OrarendScreen(
             }
 
             DayTabRow(
-                date = uiState.currentWeekStart.plusDays(pagerState.currentPage.toLong()),
+                date = uiState
+                    .currentWeekStart
+                    .plusDays(pagerState.currentPage.toLong()),
+                modifier = Modifier.align(Alignment.BottomCenter),
                 onPreviousClick = {
-                    if (pagerState.currentPage != 0) scope.launch {
-                        pagerState.animateScrollToPage(pagerState.currentPage - 1)
-                    } else scope.launch {
+                    scope.launch {
                         viewModel.onAction(ScheduleAction.PreviousWeek)
-                        pagerState.animateScrollToPage(6)
                     }
                 },
                 onNextClick = {
-                    if (pagerState.currentPage != 6) scope.launch {
-                        pagerState.animateScrollToPage(pagerState.currentPage + 1)
-                    } else scope.launch {
+                    scope.launch {
                         viewModel.onAction(ScheduleAction.NextWeek)
-                        pagerState.animateScrollToPage(0)
                     }
                 }
             )
