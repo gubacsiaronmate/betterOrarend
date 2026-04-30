@@ -14,7 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.gubo.syllabusapp.feature.schedule.ui.days
+import com.gubo.syllabusapp.core.util.dayAsStr
+import java.time.DayOfWeek
 
 @Composable
 fun DayTabRow(
@@ -27,11 +28,11 @@ fun DayTabRow(
             .fillMaxWidth()
             .padding(horizontal = 8.dp, vertical = 12.dp)
     ) {
-        days.forEachIndexed { idx, day ->
+        DayOfWeek.entries.forEachIndexed { idx, day ->
             val selected = pagerState.currentPage == idx
 
             Text(
-                text = day,
+                text = dayAsStr(day),
                 style = MaterialTheme.typography.labelLarge,
                 color =
                     if (selected)

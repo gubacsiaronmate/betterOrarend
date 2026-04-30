@@ -1,9 +1,9 @@
 package com.gubo.syllabusapp.core.util
 
+import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
-import java.time.Instant
 
 fun ZonedDateTime.asFormattedStr(): String {
     val formatter = DateTimeFormatter.ofPattern("HH:mm")

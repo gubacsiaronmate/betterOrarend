@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">SyllabusApp</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="no_classes_today">No classes today</string>
 </resources>

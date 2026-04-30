@@ -21,16 +21,23 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gubo.syllabusapp.core.util.asFormattedStr
 import com.gubo.syllabusapp.feature.schedule.domain.model.ClassSession
 import com.gubo.syllabusapp.feature.schedule.ui.components.DayPage
 import com.gubo.syllabusapp.feature.schedule.ui.components.DayTabRow
 import kotlinx.coroutines.launch
+import java.time.DayOfWeek
 import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OrarendScreen() {
+fun OrarendScreen(
+    viewModel: ScheduleViewModel = hiltViewModel()
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     val todayIndex = (LocalDate.now().dayOfWeek.value - 1).coerceIn(0, 4)
     val pagerState = rememberPagerState(
         initialPage = todayIndex,
@@ -49,7 +56,7 @@ fun OrarendScreen() {
                 modifier = Modifier.weight(1f)
             ) { page ->
                 DayPage(
-                    sessions = sampleSchedule[page] ?: emptyList()
+                    sessions = uiState.sessions[DayOfWeek.of(page + 1)] ?: emptyList()
                 ) { selectedSession = it }
             }
 
