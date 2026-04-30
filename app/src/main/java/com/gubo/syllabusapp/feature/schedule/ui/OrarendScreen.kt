@@ -63,13 +63,19 @@ fun OrarendScreen(
             DayTabRow(
                 date = uiState.currentWeekStart.plusDays(pagerState.currentPage.toLong()),
                 onPreviousClick = {
-                    scope.launch {
+                    if (pagerState.currentPage != 0) scope.launch {
                         pagerState.animateScrollToPage(pagerState.currentPage - 1)
+                    } else scope.launch {
+                        viewModel.onAction(ScheduleAction.PreviousWeek)
+                        pagerState.animateScrollToPage(6)
                     }
                 },
                 onNextClick = {
-                    scope.launch {
+                    if (pagerState.currentPage != 6) scope.launch {
                         pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                    } else scope.launch {
+                        viewModel.onAction(ScheduleAction.NextWeek)
+                        pagerState.animateScrollToPage(0)
                     }
                 }
             )
