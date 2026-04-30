@@ -41,7 +41,7 @@ fun OrarendScreen(
     val todayIndex = (LocalDate.now().dayOfWeek.value - 1).coerceIn(0, 4)
     val pagerState = rememberPagerState(
         initialPage = todayIndex,
-        pageCount = { days.size }
+        pageCount = { 5 }
     )
     val scope = rememberCoroutineScope()
     var selectedSession by remember { mutableStateOf<ClassSession?>(null) }
