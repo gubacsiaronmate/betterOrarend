@@ -12,5 +12,6 @@ fun dayAsStr(dayOfWeek: DayOfWeek): String = when (dayOfWeek) {
     DayOfWeek.WEDNESDAY -> stringResource(R.string.wednesday)
     DayOfWeek.THURSDAY -> stringResource(R.string.thursday)
     DayOfWeek.FRIDAY -> stringResource(R.string.friday)
-    else -> ""
+    DayOfWeek.SATURDAY -> stringResource(R.string.saturday)
+    DayOfWeek.SUNDAY -> stringResource(R.string.sunday)
 }

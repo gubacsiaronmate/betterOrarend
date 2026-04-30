@@ -38,10 +38,10 @@ fun OrarendScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    val todayIndex = (LocalDate.now().dayOfWeek.value - 1).coerceIn(0, 4)
+    val todayIndex = (LocalDate.now().dayOfWeek.value - 1)
     val pagerState = rememberPagerState(
         initialPage = todayIndex,
-        pageCount = { 5 }
+        pageCount = { 7 }
     )
     val scope = rememberCoroutineScope()
     var selectedSession by remember { mutableStateOf<ClassSession?>(null) }
@@ -60,11 +60,19 @@ fun OrarendScreen(
                 ) { selectedSession = it }
             }
 
-            DayTabRow(pagerState) {
-                scope.launch {
-                    pagerState.animateScrollToPage(it)
+            DayTabRow(
+                date = uiState.currentWeekStart.plusDays(pagerState.currentPage.toLong()),
+                onPreviousClick = {
+                    scope.launch {
+                        pagerState.animateScrollToPage(pagerState.currentPage - 1)
+                    }
+                },
+                onNextClick = {
+                    scope.launch {
+                        pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                    }
                 }
-            }
+            )
         }
 
         selectedSession?.let { session ->

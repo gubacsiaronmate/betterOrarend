@@ -1,55 +1,47 @@
 package com.gubo.syllabusapp.feature.schedule.ui.components
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.pager.PagerState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
+import androidx.compose.material.icons.automirrored.filled.ArrowForwardIos
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.gubo.syllabusapp.core.util.dayAsStr
-import java.time.DayOfWeek
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun DayTabRow(
-    pagerState: PagerState,
-    onTabClick: (Int) -> Unit
+    date: LocalDate,
+    onPreviousClick: () -> Unit,
+    onNextClick: () -> Unit
 ) {
+    val formatter = DateTimeFormatter.ofPattern("yyyy. MM. dd.")
+    val formattedDate = date.format(formatter)
+
     Row(
         horizontalArrangement = Arrangement.SpaceAround,
+        verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 8.dp, vertical = 12.dp)
     ) {
-        DayOfWeek.entries.forEachIndexed { idx, day ->
-            val selected = pagerState.currentPage == idx
+        IconButton(onPreviousClick) {
+            Icon(Icons.AutoMirrored.Filled.ArrowBackIos, null)
+        }
 
-            Text(
-                text = dayAsStr(day),
-                style = MaterialTheme.typography.labelLarge,
-                color =
-                    if (selected)
-                        MaterialTheme.colorScheme.onPrimary
-                    else
-                        MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier
-                    .background(
-                        color =
-                            if (selected)
-                                MaterialTheme.colorScheme.primary
-                            else Color.Transparent,
-                        shape = RoundedCornerShape(8.dp)
-                    )
-                    .clickable { onTabClick(idx) }
-                    .padding(horizontal = 10.dp, vertical = 6.dp)
-            )
+        Text("$formattedDate ${dayAsStr(date.dayOfWeek)}")
+
+        IconButton(onNextClick) {
+            Icon(Icons.AutoMirrored.Filled.ArrowForwardIos, null)
         }
     }
 }
