@@ -16,12 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.gubo.syllabusapp.core.util.asFormattedStr
-import com.gubo.syllabusapp.feature.schedule.domain.model.ClassSession
+import com.gubo.syllabusapp.feature.schedule.domain.model.Displayable
 
 @Composable
-fun SessionCard(
-    number: Int,
-    session: ClassSession,
+fun DisplayableCard(
+    session: Displayable,
     onClick: () -> Unit
 ) {
     Row(
@@ -36,26 +35,22 @@ fun SessionCard(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        Text(
-            text = number.toString(),
-            style = MaterialTheme.typography.headlineMedium,
-            color = MaterialTheme.colorScheme.onPrimary
-        )
-
         Column(Modifier.weight(1f)) {
             Text(
-                text = session.subject,
+                text = session.title,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onPrimary,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
 
-            Text(
-                text = session.location,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onPrimary.copy(alpha = .8f)
-            )
+            session.location?.let {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onPrimary.copy(alpha = .8f)
+                )
+            }
         }
 
         Column(horizontalAlignment = Alignment.End) {

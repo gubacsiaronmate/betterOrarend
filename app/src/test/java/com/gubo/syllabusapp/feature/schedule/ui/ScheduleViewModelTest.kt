@@ -96,7 +96,7 @@ class ScheduleViewModelTest {
     @Test
     fun `does the viewmodel observe the repository`() = runTest {
         val session = ClassSession(
-            subject = "",
+            title = "",
             instructor = "",
             location = "",
             startTime = ZonedDateTime.now(),

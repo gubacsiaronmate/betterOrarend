@@ -11,7 +11,7 @@ import com.gubo.syllabusapp.feature.schedule.domain.model.Semester
 import com.gubo.syllabusapp.feature.schedule.domain.model.UserEvent
 
 fun ClassSessionEntity.toDomain(): ClassSession = ClassSession(
-    subject = subject,
+    title = subject,
     instructor = instructor,
     location = location,
     startTime = startTimeUtc.toZonedDateTime(ZONE),
@@ -21,7 +21,7 @@ fun ClassSessionEntity.toDomain(): ClassSession = ClassSession(
 fun ClassSession.toEntity(semesterId: Long, uid: String): ClassSessionEntity = ClassSessionEntity(
     uid = uid,
     semesterId = semesterId,
-    subject = subject,
+    subject = title,
     instructor = instructor,
     location = location,
     startTimeUtc = startTime.toEpochMilli(),

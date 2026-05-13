@@ -49,7 +49,7 @@ class IcsParserTest {
 
         val result = parser.parse(icsContent)
 
-        assertEquals("Gyógypedagógiai szociológia", result[0].subject)
+        assertEquals("Gyógypedagógiai szociológia", result[0].title)
         assertEquals("Dr. Czövek Andrea", result[0].instructor)
         assertEquals("ÉK.Als.3", result[0].location)
     }
@@ -108,8 +108,8 @@ class IcsParserTest {
         val result = parser.parse(icsContent)
 
         assertEquals(3, result.size)
-        assertEquals("Gyógypedagógiai szociológia", result[0].subject)
-        assertEquals("Tipikus és atipikus fejlődés pszichológiája", result[1].subject)
-        assertEquals("Gyógypedagógiai fejlődéstan", result[2].subject)
+        assertEquals("Gyógypedagógiai szociológia", result[0].title)
+        assertEquals("Tipikus és atipikus fejlődés pszichológiája", result[1].title)
+        assertEquals("Gyógypedagógiai fejlődéstan", result[2].title)
     }
 }

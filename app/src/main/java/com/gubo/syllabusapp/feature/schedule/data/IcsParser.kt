@@ -56,7 +56,7 @@ class IcsParser @Inject constructor() {
         val endTime = this["DTEND"]?.parseIcsDateTime() ?: placeholder
 
         return ClassSession(
-            subject = subject,
+            title = subject,
             instructor = instructor,
             location = location,
             startTime = startTime,

@@ -26,6 +26,8 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gubo.syllabusapp.core.util.asFormattedStr
 import com.gubo.syllabusapp.feature.schedule.domain.model.ClassSession
+import com.gubo.syllabusapp.feature.schedule.domain.model.Displayable
+import com.gubo.syllabusapp.feature.schedule.domain.model.UserEvent
 import com.gubo.syllabusapp.feature.schedule.ui.components.DayPage
 import com.gubo.syllabusapp.feature.schedule.ui.components.DayTabRow
 import kotlinx.coroutines.launch
@@ -45,7 +47,7 @@ fun OrarendScreen(
         pageCount = { 7 }
     )
     val scope = rememberCoroutineScope()
-    var selectedSession by remember { mutableStateOf<ClassSession?>(null) }
+    var selectedItem by remember { mutableStateOf<Displayable?>(null) }
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
     )
@@ -57,8 +59,9 @@ fun OrarendScreen(
                 modifier = Modifier.fillMaxSize()
             ) { page ->
                 DayPage(
+                    events = uiState.userEvents[DayOfWeek.of(page + 1)] ?: emptyList(),
                     sessions = uiState.sessions[DayOfWeek.of(page + 1)] ?: emptyList()
-                ) { selectedSession = it }
+                ) { selectedItem = it }
             }
 
             DayTabRow(
@@ -79,20 +82,20 @@ fun OrarendScreen(
             )
         }
 
-        selectedSession?.let { session ->
+        selectedItem?.let { item ->
             ModalBottomSheet(
-                onDismissRequest = { selectedSession = null },
+                onDismissRequest = { selectedItem = null },
                 sheetState = sheetState
             ) {
-                ModalBottomSheetContent(session)
+                ModalBottomSheetContent(item)
             }
         }
     }
 }
 
 @Composable
-fun ModalBottomSheetContent(
-    session: ClassSession
+private fun ModalBottomSheetContent(
+    item: Displayable
 ) {
     Column(
         modifier = Modifier
@@ -101,21 +104,29 @@ fun ModalBottomSheetContent(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
-            text = session.subject,
+            text = item.title,
             style = MaterialTheme.typography.titleLarge
         )
         HorizontalDivider()
+        if (item is ClassSession) {
+            Text(
+                text = "Oktató: ${item.instructor}",
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
         Text(
-            text = "Oktató: ${session.instructor}",
+            text = "Terem: ${item.location}",
             style = MaterialTheme.typography.bodyMedium
         )
         Text(
-            text = "Terem: ${session.location}",
+            text = "${item.startTime.asFormattedStr()} – ${item.endTime.asFormattedStr()}",
             style = MaterialTheme.typography.bodyMedium
         )
-        Text(
-            text = "${session.startTime.asFormattedStr()} – ${session.endTime.asFormattedStr()}",
-            style = MaterialTheme.typography.bodyMedium
-        )
+        if (item is UserEvent && item.description != null) {
+            Text(
+                text = item.description,
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
     }
 }

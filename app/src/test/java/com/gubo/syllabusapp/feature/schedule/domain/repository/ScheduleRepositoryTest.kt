@@ -85,7 +85,7 @@ class ScheduleRepositoryTest {
         repository.getSessionsForWeek(LocalDate.of(2026, 2, 23)).testItems {
             val sessions = awaitItem()
             assertEquals(1, sessions.size)
-            assertEquals("Gyógypedagógiai szociológia", sessions.first().subject)
+            assertEquals("Gyógypedagógiai szociológia", sessions.first().title)
             assertEquals("ÉK.Als.3", sessions.first().location)
             assert(LocalDate.of(2026, 2, 23) < sessions.first().startTime.toLocalDate())
             assert(LocalDate.of(2026, 3, 1) > sessions.first().startTime.toLocalDate())
