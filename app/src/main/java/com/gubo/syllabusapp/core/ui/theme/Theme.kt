@@ -1,13 +1,17 @@
 package com.gubo.syllabusapp.core.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
@@ -252,6 +256,8 @@ val unspecified_scheme = ColorFamily(
     Color.Unspecified, Color.Unspecified, Color.Unspecified, Color.Unspecified
 )
 
+val LocalDarkThemeState = compositionLocalOf { false }
+
 @Composable
 fun AppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -277,10 +283,25 @@ fun AppTheme(
         }
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = AppTypography,
-        content = content
-    )
+    CompositionLocalProvider(LocalDarkThemeState provides darkTheme) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = AppTypography,
+            content = content
+        )
+    }
 }
 
+@Suppress("UnusedReceiverParameter")
+val ColorScheme.classStripe: Color
+    @Composable
+    @ReadOnlyComposable
+    get() = if (LocalDarkThemeState.current)
+        classStripeDark else classStripeLight
+
+@Suppress("UnusedReceiverParameter")
+val ColorScheme.eventStripe: Color
+    @Composable
+    @ReadOnlyComposable
+    get() = if (LocalDarkThemeState.current)
+        eventStripeDark else eventStripeLight

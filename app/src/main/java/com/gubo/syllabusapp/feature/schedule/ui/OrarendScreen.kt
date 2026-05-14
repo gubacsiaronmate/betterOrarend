@@ -69,14 +69,22 @@ fun OrarendScreen(
                     .currentWeekStart
                     .plusDays(pagerState.currentPage.toLong()),
                 modifier = Modifier.align(Alignment.BottomCenter),
+                onHomeClick = {
+                    scope.launch {
+                        viewModel.onAction(ScheduleAction.ResetWeekToToday)
+                        pagerState.animateScrollToPage(todayIndex)
+                    }
+                },
                 onPreviousClick = {
                     scope.launch {
                         viewModel.onAction(ScheduleAction.PreviousWeek)
+                        pagerState.scrollToPage(6)
                     }
                 },
                 onNextClick = {
                     scope.launch {
                         viewModel.onAction(ScheduleAction.NextWeek)
+                        pagerState.scrollToPage(0)
                     }
                 }
             )
@@ -86,9 +94,7 @@ fun OrarendScreen(
             ModalBottomSheet(
                 onDismissRequest = { selectedItem = null },
                 sheetState = sheetState
-            ) {
-                ModalBottomSheetContent(item)
-            }
+            ) { ModalBottomSheetContent(item) }
         }
     }
 }

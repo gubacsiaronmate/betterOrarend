@@ -21,9 +21,9 @@ import javax.inject.Inject
 class ScheduleViewModel @Inject constructor(
     private val repository: ScheduleRepository
 ) : ViewModel() {
-    private val _weekStart = MutableStateFlow(
-        LocalDate.now().with(DayOfWeek.MONDAY)
-    )
+    private val _todaysWeek = LocalDate.now().with(DayOfWeek.MONDAY)!!
+
+    private val _weekStart = MutableStateFlow(_todaysWeek)
 
     val uiState: StateFlow<ScheduleUiState> = combine(
         _weekStart.flatMapLatest { weekStart ->
@@ -47,17 +47,18 @@ class ScheduleViewModel @Inject constructor(
 
     fun onAction(action: ScheduleAction) {
         when (action) {
-            is ScheduleAction.PreviousWeek -> {
+            is ScheduleAction.PreviousWeek ->
                 _weekStart.value = _weekStart.value.minusWeeks(1)
-            }
 
-            is ScheduleAction.NextWeek -> {
+            is ScheduleAction.NextWeek ->
                 _weekStart.value = _weekStart.value.plusWeeks(1)
-            }
 
             is ScheduleAction.AddUserEvent -> viewModelScope.launch {
                 repository.addUserEvent(action.event)
             }
+
+            is ScheduleAction.ResetWeekToToday ->
+                _weekStart.value = _todaysWeek
         }
     }
 }

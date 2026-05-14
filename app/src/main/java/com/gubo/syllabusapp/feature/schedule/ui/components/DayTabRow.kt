@@ -1,6 +1,7 @@
 package com.gubo.syllabusapp.feature.schedule.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,6 +27,7 @@ import java.time.format.DateTimeFormatter
 fun DayTabRow(
     date: LocalDate,
     modifier: Modifier = Modifier,
+    onHomeClick: () -> Unit,
     onPreviousClick: () -> Unit,
     onNextClick: () -> Unit
 ) {
@@ -49,7 +51,10 @@ fun DayTabRow(
             Icon(Icons.AutoMirrored.Filled.ArrowBackIos, null)
         }
 
-        Text("$formattedDate ${dayAsStr(date.dayOfWeek)}")
+        Text(
+            text = "$formattedDate ${dayAsStr(date.dayOfWeek)}",
+            modifier = Modifier.clickable(onClick = onHomeClick)
+        )
 
         IconButton(onNextClick) {
             Icon(Icons.AutoMirrored.Filled.ArrowForwardIos, null)

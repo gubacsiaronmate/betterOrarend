@@ -218,9 +218,8 @@ val surfaceContainerDarkHighContrast = Color(0xFF312F35)
 val surfaceContainerHighDarkHighContrast = Color(0xFF3D3A41)
 val surfaceContainerHighestDarkHighContrast = Color(0xFF48464C)
 
+val classStripeLight = Color(0xFFAFA9EC)
+val classStripeDark = Color(0xFF4B3E76)
 
-
-
-
-
-
+val eventStripeLight = Color(0xFFFFB4A2)
+val eventStripeDark = Color(0xFF8B3A26)
