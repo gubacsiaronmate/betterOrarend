@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AutoStories
@@ -56,17 +57,25 @@ fun DisplayableCard(
             when (item) {
                 is ClassSession -> {
                     Box(
-                        Modifier.fillMaxHeight()
+                        Modifier.fillMaxHeight().width(4.dp)
                             .background(MaterialTheme.colorScheme.classStripe)
                     )
-                    Icon(Icons.Outlined.AutoStories, null)
+                    Icon(
+                        imageVector = Icons.Outlined.AutoStories,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onPrimary
+                    )
                 }
                 is UserEvent -> {
                     Box(
-                        Modifier.fillMaxHeight()
+                        Modifier.fillMaxHeight().width(4.dp)
                             .background(MaterialTheme.colorScheme.eventStripe)
                     )
-                    Icon(Icons.Outlined.Event, null)
+                    Icon(
+                        imageVector = Icons.Outlined.Event,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onPrimary
+                    )
                 }
             }
         }
