@@ -50,7 +50,8 @@ class ScheduleViewModelTest {
 
         viewModel.uiState.testItems {
             var uiState = awaitItem()
-            var weekStart = uiState.currentWeekStart
+            val todaysWeek = uiState.currentWeekStart
+            var weekStart = todaysWeek
 
             actions.forEach { action ->
                 when (action) {
@@ -88,6 +89,8 @@ class ScheduleViewModelTest {
 
                         assertEquals(eventListSizeBefore + 1, eventListSizeAfter)
                     }
+
+                    ScheduleAction.ResetWeekToToday -> throw NotImplementedError()
                 }
             }
         }

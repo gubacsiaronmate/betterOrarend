@@ -53,12 +53,8 @@ class IcsParser @Inject constructor() {
         return events
     }
 
-    fun parse(content: String): List<ClassSession> {
-        if (content.isBlank()) return emptyList()
 
-        return emptyList()
-    }
-
+    @Deprecated("")
     private fun Map<String, String>.toClassSession(placeholder: ZonedDateTime): ClassSession {
         val summary = this["SUMMARY"] ?: ""
         val subject = summary.substringBefore("(").trim()
@@ -84,10 +80,20 @@ class IcsParser @Inject constructor() {
         )
     }
 
+    @Deprecated("")
     private fun String.parseIcsDateTime(): ZonedDateTime {
         val formatter = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'")
         val localDateTime = LocalDateTime.parse(this, formatter)
         return localDateTime.atZone(ZoneOffset.UTC)
+    }
+
+    fun parse(content: String): List<ClassSession> {
+        if (content.isBlank()) return emptyList()
+
+        val ical = parseContentToObject(content)
+        val tzInfo = ical.timezoneInfo
+
+        return ical.events.toClassSessions(tzInfo)
     }
 
     private fun List<VEvent>.toClassSessions(tzInfo: TimezoneInfo): List<ClassSession> = map { it.toClassSession(tzInfo) }
@@ -101,10 +107,11 @@ class IcsParser @Inject constructor() {
             .map { it.trim() }
             .firstOrNull { it.isNotBlank() && it != "Tanóra" }
             ?: ""
+        val location = this.location?.value?.substringBefore("(")?.trim() ?: ""
 
         return ClassSession(
             title = subject,
-            location = this.location.value ?: "",
+            location = location,
             startTime = this.dateStart.toZonedDateTime(tzInfo),
             endTime = this.dateEnd.toZonedDateTime(tzInfo),
             instructor = instructor
@@ -128,7 +135,7 @@ class IcsParser @Inject constructor() {
         }
     }
 
-    private fun parseFileToObject(content: String): ICalendar {
+    private fun parseContentToObject(content: String): ICalendar {
         val reader = ICalReader(content)
         val cals = reader.readAll()
         return when (cals.size) {
