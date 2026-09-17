@@ -10,7 +10,7 @@ class IcsParserTest {
 
     @Test
     fun `parse returns empty list when input is empty`() {
-        val result = parser.parse("")
+        val result = parser.parseByHand("")
         assertEquals(0, result.size)
     }
 
@@ -28,7 +28,7 @@ class IcsParserTest {
             END:VCALENDAR
         """.trimIndent()
 
-        val result = parser.parse(icsContent)
+        val result = parser.parseByHand(icsContent)
 
         assertEquals(1, result.size)
     }
@@ -47,7 +47,7 @@ class IcsParserTest {
             END:VCALENDAR
         """.trimIndent()
 
-        val result = parser.parse(icsContent)
+        val result = parser.parseByHand(icsContent)
 
         assertEquals("Gyógypedagógiai szociológia", result[0].title)
         assertEquals("Dr. Czövek Andrea", result[0].instructor)
@@ -68,7 +68,7 @@ class IcsParserTest {
             END:VCALENDAR
         """.trimIndent()
 
-        val result = parser.parse(icsContent)
+        val result = parser.parseByHand(icsContent)
 
         val zone = ZoneId.of("Europe/Budapest")
         assertEquals(9, result[0].startTime.withZoneSameInstant(zone).hour)
@@ -105,7 +105,7 @@ class IcsParserTest {
             END:VCALENDAR
         """.trimIndent()
 
-        val result = parser.parse(icsContent)
+        val result = parser.parseByHand(icsContent)
 
         assertEquals(3, result.size)
         assertEquals("Gyógypedagógiai szociológia", result[0].title)

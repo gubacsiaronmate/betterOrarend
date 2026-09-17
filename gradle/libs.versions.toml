@@ -1,5 +1,5 @@
 [versions]
-agp = "9.3.2"
+agp = "9.4.0"
 kotlin = "2.4.20"
 composeBom = "2026.08.00"
 
@@ -7,10 +7,10 @@ coreKtx = "1.19.0"
 lifecycleRuntimeKtx = "2.11.0"
 activityCompose = "1.13.0"
 
-room = "2.8.4"
+room = "2.8.5"
 hilt = "2.60.1"
 hiltNavigationCompose = "1.4.0"
-navigation = "2.10.0"
+navigation = "2.10.1"
 ksp = "2.3.6"
 
 coroutines = "1.11.0"
@@ -21,6 +21,8 @@ junitVersion = "1.3.0"
 espressoCore = "3.7.0"
 turbine = "1.2.1"
 mockk = "1.14.11"
+
+biweekly = "0.6.8"
 
 [libraries]
 # Core
@@ -66,6 +68,9 @@ kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 
 # Reflection
 kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
+
+# ICS parsing
+biweekly = { group = "net.sf.biweekly", name = "biweekly", version.ref = "biweekly" }
 
 # Testing
 junit = { group = "junit", name = "junit", version.ref = "junit" }

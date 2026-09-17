@@ -86,6 +86,9 @@ dependencies {
     // Reflection
     implementation(libs.kotlin.reflect)
 
+    // ICS parsing
+    implementation(libs.biweekly)
+
     // Testing
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
