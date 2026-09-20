@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            AppTheme(dynamicColor = false) {
+            AppTheme {
                 Scaffold(
                     modifier = Modifier
                         .statusBarsPadding()

@@ -23,6 +23,7 @@ turbine = "1.2.1"
 mockk = "1.14.11"
 
 biweekly = "0.6.8"
+materialKolor = "5.0.1"
 
 [libraries]
 # Core
@@ -71,6 +72,9 @@ kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", vers
 
 # ICS parsing
 biweekly = { group = "net.sf.biweekly", name = "biweekly", version.ref = "biweekly" }
+
+# Generative dynamic color scheme
+materialKolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
 
 # Testing
 junit = { group = "junit", name = "junit", version.ref = "junit" }

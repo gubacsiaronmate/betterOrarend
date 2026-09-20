@@ -89,6 +89,9 @@ dependencies {
     // ICS parsing
     implementation(libs.biweekly)
 
+    // Generative dynamic color scheme
+    implementation(libs.materialKolor)
+
     // Testing
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)

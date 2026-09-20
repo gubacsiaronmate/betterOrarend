@@ -16,9 +16,8 @@ import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class IcsParser @Inject constructor() {
-
-    fun parse(content: String): List<ClassSession> {
-        if (content.isBlank()) return emptyList()
+    fun parse(content: String): Map<String, ClassSession> {
+        if (content.isBlank()) return emptyMap()
 
         val ical = parseContentToObject(content)
         val tzInfo = ical.timezoneInfo
@@ -26,9 +25,10 @@ class IcsParser @Inject constructor() {
         return ical.events.toClassSessions(tzInfo)
     }
 
-    private fun List<VEvent>.toClassSessions(tzInfo: TimezoneInfo): List<ClassSession> = map { it.toClassSession(tzInfo) }
-    
-    private fun VEvent.toClassSession(tzInfo: TimezoneInfo): ClassSession {
+    private fun List<VEvent>.toClassSessions(tzInfo: TimezoneInfo): Map<String, ClassSession> =
+        associate { it.toClassSession(tzInfo) }
+
+    private fun VEvent.toClassSession(tzInfo: TimezoneInfo): Pair<String, ClassSession> {
         val summary = this.summary?.value ?: ""
         val subject = summary.substringBefore("(").trim()
         val instructor = summary
@@ -39,13 +39,15 @@ class IcsParser @Inject constructor() {
             ?: ""
         val location = this.location?.value?.substringBefore("(")?.trim() ?: ""
 
-        return ClassSession(
+        val session = ClassSession(
             title = subject,
             location = location,
             startTime = this.dateStart.toZonedDateTime(tzInfo),
             endTime = this.dateEnd.toZonedDateTime(tzInfo),
             instructor = instructor
         )
+
+        return Pair(this.uid?.value ?: "uid-${session.hashCode()}", session)
     }
 
     private fun DateOrDateTimeProperty.toZonedDateTime(tzInfo: TimezoneInfo): ZonedDateTime {

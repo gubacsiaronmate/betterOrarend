@@ -257,12 +257,13 @@ val unspecified_scheme = ColorFamily(
 )
 
 val LocalDarkThemeState = compositionLocalOf { false }
+val LocalDynamicColorSchemeState = compositionLocalOf { false }
 
 @Composable
 fun AppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     contrast: Contrast = Contrast.Standard,
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = LocalDynamicColorSchemeState.current,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -283,7 +284,10 @@ fun AppTheme(
         }
     }
 
-    CompositionLocalProvider(LocalDarkThemeState provides darkTheme) {
+    CompositionLocalProvider(
+        LocalDarkThemeState provides darkTheme,
+        LocalDynamicColorSchemeState provides dynamicColor
+    ) {
         MaterialTheme(
             colorScheme = colorScheme,
             typography = AppTypography,

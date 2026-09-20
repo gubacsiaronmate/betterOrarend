@@ -75,9 +75,9 @@ class ScheduleRepositoryImpl @Inject constructor(
             )
         )
 
-        val sessions = icsParser.parse(content).mapIndexed { index, session ->
-            session.toEntity(semesterId, "uid-$index")
-        }
+        val sessions = icsParser
+            .parse(content)
+            .map { (uid, session) -> session.toEntity(semesterId, uid) }
 
         classSessionDao.insertAll(sessions)
         semesterDao.switchActiveSemester(semesterId)
