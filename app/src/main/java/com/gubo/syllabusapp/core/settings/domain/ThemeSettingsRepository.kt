@@ -1,4 +1,4 @@
-package com.gubo.syllabusapp.core.ui.theme.settings
+package com.gubo.syllabusapp.core.settings.domain
 
 import androidx.compose.ui.graphics.Color
 import com.materialkolor.Contrast

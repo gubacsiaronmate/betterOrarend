@@ -92,6 +92,9 @@ dependencies {
     // Generative dynamic color scheme
     implementation(libs.materialKolor)
 
+    // Data store
+    implementation(libs.androidx.datastore.preferences)
+
     // Testing
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)

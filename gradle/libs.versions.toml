@@ -24,6 +24,7 @@ mockk = "1.14.11"
 
 biweekly = "0.6.8"
 materialKolor = "5.0.1"
+datastore = "1.2.1"
 
 [libraries]
 # Core
@@ -75,6 +76,9 @@ biweekly = { group = "net.sf.biweekly", name = "biweekly", version.ref = "biweek
 
 # Generative dynamic color scheme
 materialKolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
+
+# Data store
+androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 
 # Testing
 junit = { group = "junit", name = "junit", version.ref = "junit" }

@@ -1,3 +1,3 @@
-package com.gubo.syllabusapp.core.ui.theme.settings
+package com.gubo.syllabusapp.core.settings.domain
 
 enum class DarkModePreference { FollowSystem, Light, Dark }

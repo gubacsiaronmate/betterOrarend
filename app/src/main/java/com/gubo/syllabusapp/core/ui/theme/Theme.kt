@@ -9,8 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import com.gubo.syllabusapp.core.ui.theme.settings.DarkModePreference
-import com.gubo.syllabusapp.core.ui.theme.settings.ThemeSettings
+import com.gubo.syllabusapp.core.settings.domain.DarkModePreference
+import com.gubo.syllabusapp.core.settings.domain.ThemeSettings
 import com.materialkolor.ktx.isLight
 import com.materialkolor.rememberDynamicColorScheme
 
