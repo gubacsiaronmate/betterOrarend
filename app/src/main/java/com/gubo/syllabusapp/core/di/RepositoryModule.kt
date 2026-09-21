@@ -1,5 +1,9 @@
 package com.gubo.syllabusapp.core.di
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import com.gubo.syllabusapp.core.settings.data.ThemeSettingsRepositoryImpl
+import com.gubo.syllabusapp.core.settings.domain.ThemeSettingsRepository
 import com.gubo.syllabusapp.feature.schedule.data.IcsParser
 import com.gubo.syllabusapp.feature.schedule.data.ScheduleRepositoryImpl
 import com.gubo.syllabusapp.feature.schedule.data.local.ClassSessionDao
@@ -17,7 +21,7 @@ import javax.inject.Singleton
 object RepositoryModule {
     @Provides
     @Singleton
-    fun providesRepository(
+    fun providesScheduleRepository(
         semesterDao: SemesterDao,
         classSessionDao: ClassSessionDao,
         userEventDao: UserEventDao,
@@ -28,4 +32,10 @@ object RepositoryModule {
         userEventDao = userEventDao,
         icsParser = icsParser
     )
+
+    @Provides
+    @Singleton
+    fun providesSettingsRepository(
+        dataStore: DataStore<Preferences>
+    ): ThemeSettingsRepository = ThemeSettingsRepositoryImpl(dataStore)
 }

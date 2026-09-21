@@ -95,6 +95,9 @@ dependencies {
     // Data store
     implementation(libs.androidx.datastore.preferences)
 
+    // Splashscreen
+    implementation(libs.androidx.core.splashscreen)
+
     // Testing
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)

@@ -25,6 +25,7 @@ mockk = "1.14.11"
 biweekly = "0.6.8"
 materialKolor = "5.0.1"
 datastore = "1.2.1"
+splashscreen = "1.2.0"
 
 [libraries]
 # Core
@@ -79,6 +80,9 @@ materialKolor = { module = "com.materialkolor:material-kolor", version.ref = "ma
 
 # Data store
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
+
+# Splash Screen
+androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashscreen" }
 
 # Testing
 junit = { group = "junit", name = "junit", version.ref = "junit" }

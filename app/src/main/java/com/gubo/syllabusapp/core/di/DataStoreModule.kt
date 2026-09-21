@@ -8,12 +8,13 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 private val Context.themeDataStore by preferencesDataStore(name = "theme_settings")
 
 @Module
-@InstallIn
+@InstallIn(SingletonComponent::class)
 object DataStoreModule {
     @Provides
     @Singleton
