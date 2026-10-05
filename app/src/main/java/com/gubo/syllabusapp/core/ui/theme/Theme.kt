@@ -49,13 +49,9 @@ private fun DarkModePreference.isDarkTheme(): Boolean = when (this) {
 }
 
 val ColorScheme.classStripe: Color
-    @Composable
-    @ReadOnlyComposable
     get() = if (surface.isLight())
         classStripeLight else classStripeDark
 
 val ColorScheme.eventStripe: Color
-    @Composable
-    @ReadOnlyComposable
     get() = if (surface.isLight())
         eventStripeLight else eventStripeDark
